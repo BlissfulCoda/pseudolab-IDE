@@ -1,11 +1,11 @@
 import Hero from "./components/Hero";
-import StatsBar from "./components/StatsBar";
+import { StatsSection } from "./components/StatsSection";
 
 const Home = () => {
   return (
     <>
       <Hero />
-      <StatsBar />
+      <StatsSection />
     </>
   );
 };

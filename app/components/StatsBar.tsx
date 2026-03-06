@@ -22,12 +22,15 @@ export default function StatsBar() {
 }
 
 const styles: Record<string, CSSProperties> = {
-  bar: {                                                 
+  bar: {
     borderTop: "1px solid var(--border)",
     borderBottom: "1px solid var(--border)",
     padding: "32px 40px",
-    display: "grid",
-    gridTemplateColumns: "repeat(4, 1fr)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "48px",
+    flexWrap: "wrap",
     maxWidth: "1200px",
     margin: "0 auto",
   },

@@ -6,179 +6,136 @@
    - Badge, headline, subtext, CTA buttons
    - Full IDE preview window (editor + AI feedback panel)
    ============================================================ */
-
-import React from "react";
-import type { CSSProperties } from "react";
-
-/* ── Floating keyword pill data ── */
-const FLOATING_KEYWORDS = [
-  {
-    text: "FOR i ← 1 TO n",
-    style: {
-      top: "15%",
-      left: "5%",
-      animationDelay: "0.8s",
-      color: "var(--text-3)",
-      borderColor: "var(--border)",
-    },
-  },
-  {
-    text: "DECLARE x : INTEGER",
-    style: {
-      top: "25%",
-      right: "8%",
-      animationDelay: "1s",
-      color: "var(--code-purple)",
-      borderColor: "rgba(139,92,246,.2)",
-    },
-  },
-  {
-    text: 'OUTPUT "Hello"',
-    style: {
-      top: "60%",
-      left: "3%",
-      animationDelay: "1.2s",
-      color: "var(--code-green)",
-      borderColor: "rgba(34,197,94,.15)",
-    },
-  },
-  {
-    text: "WHILE count < 10",
-    style: {
-      top: "70%",
-      right: "5%",
-      animationDelay: "1.4s",
-      color: "var(--text-3)",
-      borderColor: "var(--border)",
-    },
-  },
-  {
-    text: "IF score > 50",
-    style: {
-      top: "40%",
-      left: "2%",
-      animationDelay: "1.6s",
-      color: "#F472B6",
-      borderColor: "rgba(244,114,182,.15)",
-    },
-  },
-  {
-    text: "NEXT i",
-    style: {
-      top: "35%",
-      right: "3%",
-      animationDelay: "1.1s",
-      color: "var(--text-3)",
-      borderColor: "var(--border)",
-    },
-  },
-];
+import { FLOATING_KEYWORDS } from "@/lib/utils";
 
 /* ── IDE preview code lines ── */
 const CODE_LINES = [
   <>
-    <span className="cmt">{"// Cambridge IGCSE Grade Calculator"}</span>
+    <span className="pl-cmt">{"// Cambridge IGCSE Grade Calculator"}</span>
   </>,
   <></>,
   <>
-    <span className="kw">DECLARE</span> score <span className="op">:</span>{" "}
-    <span className="kw-b">INTEGER</span>
+    <span className="pl-kw">DECLARE</span> score{" "}
+    <span className="pl-op">:</span> <span className="pl-kw-b">INTEGER</span>
   </>,
   <>
-    <span className="kw">DECLARE</span> grade <span className="op">:</span>{" "}
-    <span className="kw-b">STRING</span>
-  </>,
-  <></>,
-  <>
-    <span className="kw">INPUT</span> score
+    <span className="pl-kw">DECLARE</span> grade{" "}
+    <span className="pl-op">:</span> <span className="pl-kw-b">STRING</span>
   </>,
   <></>,
   <>
-    <span className="kw">IF</span> score <span className="op">≥</span>{" "}
-    <span className="num">90</span> <span className="kw">THEN</span>
-  </>,
-  <>
-    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="op">←</span>{" "}
-    <span className="str">&quot;A*&quot;</span>
-  </>,
-  <>
-    <span className="kw">ELSE IF</span> score <span className="op">≥</span>{" "}
-    <span className="num">70</span> <span className="kw">THEN</span>
-  </>,
-  <>
-    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="op">←</span>{" "}
-    <span className="str">&quot;A&quot;</span>
-  </>,
-  <>
-    <span className="kw">ELSE</span>
-  </>,
-  <>
-    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="op">←</span>{" "}
-    <span className="str">&quot;B&quot;</span>
-  </>,
-  <>
-    <span className="kw">ENDIF</span>
+    <span className="pl-kw">INPUT</span> score
   </>,
   <></>,
   <>
-    <span className="kw">OUTPUT</span> <span className="str">&quot;Grade: &quot;</span>,{" "}
-    grade
+    <span className="pl-kw">IF</span> score <span className="pl-op">≥</span>{" "}
+    <span className="pl-num">90</span> <span className="pl-kw">THEN</span>
+  </>,
+  <>
+    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="pl-op">←</span>{" "}
+    <span className="pl-str">&quot;A*&quot;</span>
+  </>,
+  <>
+    <span className="pl-kw">ELSE IF</span> score{" "}
+    <span className="pl-op">≥</span> <span className="pl-num">70</span>{" "}
+    <span className="pl-kw">THEN</span>
+  </>,
+  <>
+    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="pl-op">←</span>{" "}
+    <span className="pl-str">&quot;A&quot;</span>
+  </>,
+  <>
+    <span className="pl-kw">ELSE</span>
+  </>,
+  <>
+    {"\u00a0\u00a0\u00a0\u00a0"}grade <span className="pl-op">←</span>{" "}
+    <span className="pl-str">&quot;B&quot;</span>
+  </>,
+  <>
+    <span className="pl-kw">ENDIF</span>
+  </>,
+  <></>,
+  <>
+    <span className="pl-kw">OUTPUT</span>{" "}
+    <span className="pl-str">&quot;Grade: &quot;</span>, grade
   </>,
 ];
 
 export default function Hero() {
   return (
-    <section className="hero-section" style={styles.hero}>
+    <section className="hero-section min-h-screen flex flex-col items-center justify-center text-center relative overflow-hidden pt-8 px-4 pb-10 sm:py-[100px] sm:px-7 sm:pb-[70px] md:py-[120px] md:px-10 md:pb-20">
       {/* ── Radial glow background ── */}
-      <div style={styles.heroBgGlow} />
+      <div
+        className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[800px] h-[500px] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(ellipse at center, rgba(109,40,217,.18) 0%, transparent 70%)",
+        }}
+      />
 
       {/* ── Floating keyword pills ── */}
-      <div style={styles.keywordsLayer}>
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {FLOATING_KEYWORDS.map((kw, i) => (
-          <div key={i} style={{ ...styles.floatingKw, ...kw.style }}>
+          <div
+            key={i}
+            className="absolute font-mono text-[11px] py-1.5 px-3 rounded-full border bg-surface opacity-0 pl-float-pill"
+            style={kw.style}
+          >
             {kw.text}
           </div>
         ))}
       </div>
 
       {/* ── Live badge ── */}
-      <div style={styles.badge}>
-        <div style={styles.badgeDot} />
+      <div className="hero-badge inline-flex items-center gap-2 py-1.5 px-3.5 bg-surface border border-border-bright rounded-full text-xs font-mono text-code-purple mb-5 sm:mb-9 relative z-[2] pl-fade-up">
+        <div className="w-1.5 h-1.5 rounded-full bg-chart-2 pl-pulse-badge" />
         Cambridge IGCSE &amp; A-Level Pseudocode Spec
       </div>
 
       {/* ── Headline ── */}
-      <h1 style={styles.h1}>
+      <h1 className="font-serif text-[clamp(36px,5vw,56px)] font-normal leading-[1.05] tracking-[-0.02em] max-w-[900px] relative z-[2] pl-fade-up-delay-1">
         Write pseudocode.
         <br />
-        <em style={styles.h1Em}>See it run.</em>
+        <em className="italic text-code-purple">See it run.</em>
         <br />
         Ace the exam.
       </h1>
 
       {/* ── Subtext ── */}
-      <p className="hero-sub" style={styles.sub}>
+      <p className="hero-sub mt-4 text-sm sm:mt-5 sm:text-base text-text-2 max-w-[560px] leading-[1.7] relative z-[2] pl-fade-up-delay-2">
         The only IDE built specifically for Cambridge International pseudocode —
         with real-time execution, syntax highlighting, AI-powered feedback, and
         a built-in reference guide.
       </p>
 
       {/* ── CTA Buttons ── */}
-      <div className="hero-actions" style={styles.actions}>
-        <a href="#" className="btn-large">
+      <div className="hero-actions mt-6 sm:mt-8 flex flex-col sm:flex-row items-center justify-center gap-2 w-full max-w-[320px] sm:max-w-none sm:w-auto relative z-[2] pl-fade-up-delay-3">
+        <a
+          href="#"
+          className="pl-btn-large w-full sm:w-auto justify-center py-2.5 px-5 sm:py-3.5 sm:px-7 text-sm sm:text-base rounded-lg sm:rounded-[10px]"
+        >
           <span>▶</span> Start writing — it&apos;s free
         </a>
-        <a href="#" className="btn-outline">
+        <a
+          href="#"
+          className="pl-btn-outline w-full sm:w-auto justify-center py-2.5 px-4 sm:py-3.5 sm:px-6 text-sm sm:text-base rounded-lg sm:rounded-[10px]"
+        >
           Watch 2 min demo →
         </a>
       </div>
 
       {/* ── IDE Preview window ── */}
-      <div className="hero-preview" style={styles.preview}>
-        <div style={styles.previewGlow} />
-        <div style={styles.ideWindow}>
+      <div className="hero-preview mt-7 sm:mt-[72px] w-full max-w-[1000px] relative z-[2] pl-fade-up-delay-4 px-2 sm:px-0">
+        <div
+          className="absolute -inset-10 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse at center bottom, rgba(109,40,217,.25) 0%, transparent 60%)",
+          }}
+        />
+        <div className="bg-surface border border-border-bright rounded-[14px] overflow-hidden shadow-[0_40px_100px_rgba(0,0,0,.6),0_0_0_1px_rgba(255,255,255,.03)]">
           {/* Tabs bar */}
-          <div className="hero-ide-tabs" style={styles.ideTabs}>
+          <div className="hero-ide-tabs flex flex-nowrap overflow-x-auto overflow-y-hidden pl-scrollbar-hide border-b border-border px-3 sm:px-4 items-center">
             <IdeTab label="⚡ Editor" activeColor="var(--orange)" active />
             <IdeTab label="⊢_ Output" activeColor="var(--code-green)" />
             <IdeTab label="□ Reference" activeColor="var(--code-purple)" />
@@ -188,32 +145,41 @@ export default function Hero() {
               active
               aiTab
             />
-            {/* Execute button */}
-            <div className="hero-execute-btn" style={styles.executeBtn}>▶ Execute</div>
+            <div className="hero-execute-btn ml-auto py-1.5 px-3.5 bg-[#28C840] rounded-md text-xs font-mono text-black font-medium cursor-pointer shrink-0">
+              ▶ Execute
+            </div>
           </div>
 
           {/* Editor + AI panel body */}
-          <div className="hero-ide-body" style={styles.ideBody}>
-            {/* Line numbers */}
-            <div className="hero-gutter" style={styles.gutter}>
-              {CODE_LINES.map((_, i) => (
-                <div key={i} style={styles.lineNum}>
-                  {i + 1}
-                </div>
-              ))}
+          <div className="hero-ide-body flex flex-col md:flex-row min-h-[260px] md:min-h-[360px] md:h-[360px]">
+            {/* Editor: gutter + code (order-2 on mobile so AI shows first) */}
+            <div className="flex flex-1 min-w-0 min-h-0 order-2 md:order-1">
+              {/* Line numbers */}
+              <div className="hero-gutter w-8 md:w-11 bg-surface-2 border-r border-border py-2 md:py-4 flex flex-col items-center shrink-0">
+                {CODE_LINES.map((_, i) => (
+                  <div
+                    key={i}
+                    className="font-mono text-xs text-text-3 leading-6 w-full text-center select-none"
+                  >
+                    {i + 1}
+                  </div>
+                ))}
+              </div>
+
+              {/* Code area */}
+              <div className="hero-code-area flex-1 min-h-[80px] md:min-h-[100px] py-2 px-3 md:py-4 md:px-5 font-mono text-[13px] leading-6 overflow-auto flex flex-col">
+                {CODE_LINES.map((line, i) => (
+                  <span key={i} className="block whitespace-pre min-h-6">
+                    {line}
+                  </span>
+                ))}
+              </div>
             </div>
 
-            {/* Code area */}
-            <div className="hero-code-area" style={styles.codeArea}>
-              {CODE_LINES.map((line, i) => (
-                <span key={i} style={styles.codeLine}>
-                  {line}
-                </span>
-              ))}
+            {/* AI mini panel - first on mobile, fixed 280px on desktop */}
+            <div className="order-1 md:order-2 md:w-[280px] md:shrink-0">
+              <AiFeedbackMiniPanel />
             </div>
-
-            {/* AI mini panel */}
-            <AiFeedbackMiniPanel />
           </div>
         </div>
       </div>
@@ -245,12 +211,8 @@ function IdeTab({
       : "transparent";
   return (
     <div
-      className="hero-ide-tab"
-      style={{
-        ...styles.ideTab,
-        color,
-        borderBottom: `2px solid ${borderColor}`,
-      }}
+      className="hero-ide-tab py-3 px-4 text-[13px] cursor-pointer flex items-center gap-1.5 font-sans shrink-0"
+      style={{ color, borderBottom: `2px solid ${borderColor}` }}
     >
       {label}
     </div>
@@ -259,313 +221,39 @@ function IdeTab({
 
 function AiFeedbackMiniPanel() {
   return (
-    <div className="hero-ai-panel" style={styles.aiMiniPanel}>
+    <div className="hero-ai-panel w-full md:w-full min-h-[100px] md:min-h-0 border-t md:border-t-0 md:border-l border-border bg-surface-2 flex flex-col">
       {/* Panel header */}
-      <div style={styles.aiMiniHeader}>
+      <div className="py-2 px-3 md:py-3 md:px-4 border-b border-border text-xs text-ai font-mono flex items-center gap-1.5">
         <span>✦</span> AI Feedback
-        <span style={styles.aiMiniScore}>7/10</span>
+        <span className="ml-auto py-0.5 px-2 bg-ai-glow border border-ai-border rounded-full text-[10px]">
+          7/10
+        </span>
       </div>
       {/* Panel body */}
-      <div style={styles.aiMiniBody}>
-        <div style={styles.aiWarnLabel}>⚠ Mark Scheme</div>
-        <p style={styles.aiMiniText}>
+      <div className="py-2 px-3 md:py-3.5 md:px-4 flex-1 overflow-y-auto">
+        <div className="text-[11px] text-chart-4 font-mono uppercase tracking-[0.08em] mb-2">
+          ⚠ Mark Scheme
+        </div>
+        <p className="text-xs text-text-2 leading-[1.6] font-sans mb-2.5">
           Missing boundary case for scores between 0–69. Cambridge mark scheme
           awards 1 mark for handling this.
         </p>
         {/* Suggested fix */}
-        <div style={styles.aiCodeSuggest}>
-          <span className="kw">ELSE</span>
+        <div className="font-mono text-[11px] text-code-purple bg-surface border border-border rounded-md py-2 px-2.5 leading-[1.7] mb-3">
+          <span className="pl-kw">ELSE</span>
           <br />
-          &nbsp;&nbsp;grade <span className="op">←</span>{" "}
-          <span className="str">&quot;C&quot;</span>
+          &nbsp;&nbsp;grade <span className="pl-op">←</span>{" "}
+          <span className="pl-str">&quot;C&quot;</span>
           <br />
-          <span className="cmt">{"// Add for full marks"}</span>
+          <span className="pl-cmt">{"// Add for full marks"}</span>
         </div>
-        <div style={styles.aiOkLabel}>✓ Correct</div>
-        <p style={styles.aiMiniText}>
+        <div className="text-[11px] text-code-green font-mono uppercase tracking-[0.08em] mb-2 mt-3">
+          ✓ Correct
+        </div>
+        <p className="text-xs text-text-2 leading-[1.6] font-sans mb-2.5">
           Proper use of DECLARE before INPUT. Good indentation structure.
         </p>
       </div>
     </div>
   );
 }
-
-/* ── Hero-scoped styles ── */
-const styles: Record<string, CSSProperties> = {
-  hero: {
-    minHeight: "100vh",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    textAlign: "center",
-    padding: "120px 40px 80px",
-    position: "relative",
-    overflow: "hidden",
-  },
-
-  heroBgGlow: {
-    position: "absolute",
-    top: "20%",
-    left: "50%",
-    transform: "translateX(-50%)",
-    width: "800px",
-    height: "500px",
-    background:
-      "radial-gradient(ellipse at center, rgba(109,40,217,.18) 0%, transparent 70%)",
-    pointerEvents: "none",
-  },
-
-  keywordsLayer: {
-    position: "absolute",
-    inset: 0,
-    pointerEvents: "none",
-    overflow: "hidden",
-  },
-
-  floatingKw: {
-    position: "absolute",
-    fontFamily: "'DM Mono', monospace",
-    fontSize: "11px",
-    padding: "5px 12px",
-    borderRadius: "100px",
-    border: "1px solid",
-    background: "var(--surface)",
-    opacity: 0,
-    animation: "floatIn 0.8s ease forwards, floatDrift 8s ease-in-out infinite",
-  },
-
-  badge: {
-    display: "inline-flex",
-    alignItems: "center",
-    gap: "8px",
-    padding: "6px 14px",
-    background: "var(--surface)",
-    border: "1px solid var(--border-bright)",
-    borderRadius: "100px",
-    fontSize: "12px",
-    fontFamily: "'DM Mono', monospace",
-    color: "var(--code-purple)",
-    marginBottom: "36px",
-    position: "relative",
-    zIndex: 2,
-    animation: "fadeUp 0.6s ease both",
-  },
-
-  badgeDot: {
-    width: "6px",
-    height: "6px",
-    background: "var(--green)",
-    borderRadius: "50%",
-    animation: "pulse 2s ease infinite",
-  },
-
-  h1: {
-    fontFamily: "'Instrument Serif', serif",
-    fontSize: "clamp(36px, 5vw, 56px)",
-    fontWeight: 400,
-    lineHeight: 1.05,
-    letterSpacing: "-0.02em",
-    maxWidth: "900px",
-    position: "relative",
-    zIndex: 2,
-    animation: "fadeUp 0.6s 0.1s ease both",
-  },
-
-  h1Em: {
-    fontStyle: "italic",
-    color: "var(--code-purple)",
-  },
-
-  sub: {
-    marginTop: "20px",
-    fontSize: "16px",
-    color: "var(--text-2)",
-    maxWidth: "560px",
-    lineHeight: 1.7,
-    position: "relative",
-    zIndex: 2,
-    animation: "fadeUp 0.6s 0.2s ease both",
-  },
-
-  actions: {
-    marginTop: "32px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: "8px",
-    position: "relative",
-    zIndex: 2,
-    animation: "fadeUp 0.6s 0.3s ease both",
-  },
-
-  preview: {
-    marginTop: "72px",
-    width: "100%",
-    maxWidth: "1000px",
-    position: "relative",
-    zIndex: 2,
-    animation: "fadeUp 0.8s 0.4s ease both",
-  },
-
-  previewGlow: {
-    position: "absolute",
-    inset: "-40px",
-    background:
-      "radial-gradient(ellipse at center bottom, rgba(109,40,217,.25) 0%, transparent 60%)",
-    pointerEvents: "none",
-  },
-
-  ideWindow: {
-    background: "var(--surface)",
-    border: "1px solid var(--border-bright)",
-    borderRadius: "14px",
-    overflow: "hidden",
-    boxShadow: "0 40px 100px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.03)",
-  },
-
-  ideTabs: {
-    display: "flex",
-    borderBottom: "1px solid var(--border)",
-    padding: "0 16px",
-    alignItems: "center",
-  },
-
-  ideTab: {
-    padding: "12px 16px",
-    fontSize: "13px",
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-    fontFamily: "'Geist', sans-serif",
-  },
-
-  executeBtn: {
-    marginLeft: "auto",
-    padding: "6px 14px",
-    background: "#28C840",
-    borderRadius: "6px",
-    fontSize: "12px",
-    fontFamily: "'DM Mono', monospace",
-    color: "#000",
-    fontWeight: 500,
-    cursor: "pointer",
-  },
-
-  ideBody: {
-    display: "flex",
-    height: "360px",
-  },
-
-  gutter: {
-    width: "44px",
-    background: "var(--surface-2)",
-    borderRight: "1px solid var(--border)",
-    padding: "16px 0",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-
-  lineNum: {
-    fontFamily: "'DM Mono', monospace",
-    fontSize: "12px",
-    color: "var(--text-3)",
-    lineHeight: "24px",
-    width: "100%",
-    textAlign: "center",
-    userSelect: "none",
-  },
-
-  codeArea: {
-    flex: 1,
-    padding: "16px 20px",
-    fontFamily: "'DM Mono', monospace",
-    fontSize: "13px",
-    lineHeight: "24px",
-    overflow: "auto",
-    display: "flex",
-    flexDirection: "column",
-  },
-
-  codeLine: {
-    display: "block",
-    whiteSpace: "pre",
-    minHeight: "24px",
-  },
-
-  /* AI mini panel */
-  aiMiniPanel: {
-    width: "280px",
-    borderLeft: "1px solid var(--border)",
-    background: "var(--surface-2)",
-    display: "flex",
-    flexDirection: "column",
-  },
-
-  aiMiniHeader: {
-    padding: "12px 16px",
-    borderBottom: "1px solid var(--border)",
-    fontSize: "12px",
-    color: "var(--ai)",
-    fontFamily: "'DM Mono', monospace",
-    display: "flex",
-    alignItems: "center",
-    gap: "6px",
-  },
-
-  aiMiniScore: {
-    marginLeft: "auto",
-    padding: "2px 8px",
-    background: "var(--ai-glow)",
-    border: "1px solid var(--ai-border)",
-    borderRadius: "100px",
-    fontSize: "10px",
-  },
-
-  aiMiniBody: {
-    padding: "14px 16px",
-    flex: 1,
-    overflowY: "auto",
-  },
-
-  aiWarnLabel: {
-    fontSize: "11px",
-    color: "var(--orange)",
-    fontFamily: "'DM Mono', monospace",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    marginBottom: "8px",
-  },
-
-  aiOkLabel: {
-    fontSize: "11px",
-    color: "var(--code-green)",
-    fontFamily: "'DM Mono', monospace",
-    textTransform: "uppercase",
-    letterSpacing: "0.08em",
-    marginBottom: "8px",
-    marginTop: "12px",
-  },
-
-  aiMiniText: {
-    fontSize: "12px",
-    color: "var(--text-2)",
-    lineHeight: 1.6,
-    fontFamily: "'Geist', sans-serif",
-    marginBottom: "10px",
-  },
-
-  aiCodeSuggest: {
-    fontFamily: "'DM Mono', monospace",
-    fontSize: "11px",
-    color: "var(--code-purple)",
-    background: "var(--surface)",
-    border: "1px solid var(--border)",
-    borderRadius: "6px",
-    padding: "8px 10px",
-    lineHeight: 1.7,
-    marginBottom: "12px",
-  },
-};

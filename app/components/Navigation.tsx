@@ -41,8 +41,8 @@ export default function Nav() {
 
       {/* ── CTA Buttons ── */}
       <div style={styles.navCta}>
-        <button className="btn-ghost">Sign in</button>
-        <a href="#" className="btn-primary">
+        <button className="pl-btn-ghost">Sign in</button>
+        <a href="#" className="pl-btn-primary">
           <span>▶</span> Launch IDE
         </a>
       </div>
