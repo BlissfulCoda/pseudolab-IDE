@@ -329,6 +329,14 @@ body::before {
 .pl-scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+.pl-cursor-blink {
+  display: inline-block;
+  width: 8px;
+  height: 14px;
+  background: var(--code-green);
+  animation: blink 1.2s ease infinite;
+  vertical-align: middle;
+}
 
 /* ── SHARED ANIMATIONS ── */
 @keyframes fadeUp {

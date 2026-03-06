@@ -1,6 +1,7 @@
 import Hero from "./components/Hero";
 import Features from "./components/Features";
 import HowItWorks from "./components/HowItWorks";
+import CambridgeSpec from "./components/CambrdigeSpecs";
 import { StatsSection } from "./components/StatsSection";
 
 const Home = () => {
@@ -10,6 +11,7 @@ const Home = () => {
       <StatsSection />
       <Features />
       <HowItWorks />
+      <CambridgeSpec />
     </>
   );
 };
