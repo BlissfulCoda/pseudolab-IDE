@@ -9,6 +9,7 @@
     "baseColor": "neutral",
     "cssVariables": true
   },
+  "iconLibrary": "radix",
   "aliases": {
     "components": "@/app/components",
     "utils": "@/lib/utils",
@@ -20,6 +21,7 @@
       "headers": {
         "Authorization": "Bearer ${TAILARK_API_KEY}"
       }
-    }
+    },
+    "@react-bits": "https://reactbits.dev/r/{name}.json"
   }
 }

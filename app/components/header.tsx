@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import React from 'react'
 import { Menu, X, Plus } from 'lucide-react'
+import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { useMedia } from '@/app/hooks/use-media'
 import { cn } from '@/lib/utils'
 
@@ -61,18 +62,27 @@ export default function Header() {
                     {/* Desktop CTA */}
                     {isDesktop && (
                         <div className="header-desktop-cta hidden lg:flex items-center gap-3">
-                            <Link
-                                href="#"
-                                className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit no-underline"
-                            >
-                                Sign in
-                            </Link>
-                            <Link
-                                href="#"
-                                className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
-                            >
-                                <span>▶</span> Launch IDE
-                            </Link>
+                            <Show when="signed-out">
+                                <SignInButton mode="modal">
+                                    <button className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit">
+                                        Sign in
+                                    </button>
+                                </SignInButton>
+                                <SignUpButton mode="modal">
+                                    <button className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit">
+                                        <span>▶</span> Sign up
+                                    </button>
+                                </SignUpButton>
+                            </Show>
+                            <Show when="signed-in">
+                                <UserButton />
+                                <Link
+                                    href="#"
+                                    className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
+                                >
+                                    <span>▶</span> Launch IDE
+                                </Link>
+                            </Show>
                         </div>
                     )}
 
@@ -110,20 +120,36 @@ export default function Header() {
                         </Link>
                     ))}
                     <div className="mt-6 flex flex-col gap-3">
-                        <Link
-                            href="#"
-                            className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit no-underline"
-                            onClick={() => setMobileOpen(false)}
-                        >
-                            Sign in
-                        </Link>
-                        <Link
-                            href="#"
-                            className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
-                            onClick={() => setMobileOpen(false)}
-                        >
-                            <span>▶</span> Launch IDE
-                        </Link>
+                        <Show when="signed-out">
+                            <SignInButton mode="modal">
+                                <button
+                                    className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit text-left"
+                                    onClick={() => setMobileOpen(false)}
+                                >
+                                    Sign in
+                                </button>
+                            </SignInButton>
+                            <SignUpButton mode="modal">
+                                <button
+                                    className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit"
+                                    onClick={() => setMobileOpen(false)}
+                                >
+                                    <span>▶</span> Sign up
+                                </button>
+                            </SignUpButton>
+                        </Show>
+                        <Show when="signed-in">
+                            <div className="flex items-center gap-3">
+                                <UserButton />
+                                <Link
+                                    href="#"
+                                    className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
+                                    onClick={() => setMobileOpen(false)}
+                                >
+                                    <span>▶</span> Launch IDE
+                                </Link>
+                            </div>
+                        </Show>
                     </div>
                 </div>
             )}

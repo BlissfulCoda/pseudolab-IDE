@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 import Header from "@/app/components/header";
+import RevealProvider from "@/app/components/RevealProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,8 +33,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
-        <Header />
-        {children}
+        <ClerkProvider>
+          <Header />
+          <RevealProvider>{children}</RevealProvider>
+        </ClerkProvider>
       </body>
     </html>
   );
