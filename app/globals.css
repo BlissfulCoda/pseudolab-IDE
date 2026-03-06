@@ -411,30 +411,3 @@ body::before {
   }
 }
 
-/* ── HEADER RESPONSIVE ── */
-.header-desktop-nav,
-.header-desktop-cta {
-  display: none;
-}
-.header-mobile-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px;
-  color: var(--text);
-}
-@media (min-width: 1024px) {
-  .header-desktop-nav,
-  .header-desktop-cta {
-    display: flex;
-  }
-  .header-mobile-btn {
-    display: none;
-  }
-  .header-mobile-overlay {
-    display: none !important;
-  }
-}

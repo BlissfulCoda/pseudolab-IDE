@@ -4,6 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 import { Menu, X, Plus } from 'lucide-react'
 import { useMedia } from '@/app/hooks/use-media'
+import { cn } from '@/lib/utils'
 
 const navLinks = [
     { name: 'Features', href: '/', highlight: false },
@@ -13,155 +14,43 @@ const navLinks = [
     { name: 'Cambridge Spec', href: '/pages/specifications', highlight: false },
 ]
 
-const styles: Record<string, React.CSSProperties> = {
-    header: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        height: 60,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: 'rgba(9, 9, 11, 0.9)',
-        backdropFilter: 'blur(14px)',
-        WebkitBackdropFilter: 'blur(14px)',
-        borderBottom: '1px solid var(--border)',
-    },
-    inner: {
-        width: '100%',
-        maxWidth: 1152,
-        padding: '0 40px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    logo: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 8,
-        fontFamily: "'DM Mono', monospace",
-        fontSize: 15,
-        fontWeight: 500,
-        color: 'var(--text)',
-        textDecoration: 'none',
-    },
-    logoIcon: {
-        width: 32,
-        height: 32,
-        borderRadius: '50%',
-        background: 'var(--purple)',
-        color: 'white',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-    },
-    nav: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 32,
-        listStyle: 'none',
-        margin: 0,
-        padding: 0,
-    },
-    navLink: {
-        color: 'var(--text-2)',
-        textDecoration: 'none',
-        fontSize: 14,
-        fontWeight: 500,
-        whiteSpace: 'nowrap',
-    },
-    navLinkHighlight: {
-        color: 'var(--ai)',
-    },
-    cta: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: 12,
-    },
-    mobileMenuBtn: {
-        background: 'none',
-        border: 'none',
-        cursor: 'pointer',
-        padding: 8,
-        color: 'var(--text)',
-    },
-    mobileOverlay: {
-        position: 'fixed',
-        top: 60,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        zIndex: 99,
-        background: 'var(--bg)',
-        padding: 24,
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 8,
-    },
-    mobileNavLink: {
-        color: 'var(--text)',
-        textDecoration: 'none',
-        fontSize: 16,
-        fontWeight: 500,
-        padding: '12px 0',
-        borderBottom: '1px solid var(--border)',
-    },
-    btnGhost: {
-        padding: '8px 16px',
-        fontSize: 14,
-        color: 'var(--text-2)',
-        background: 'none',
-        border: 'none',
-        cursor: 'pointer',
-        fontFamily: 'inherit',
-        textDecoration: 'none',
-    },
-    btnPrimary: {
-        padding: '8px 20px',
-        fontSize: 14,
-        fontWeight: 500,
-        color: 'white',
-        background: 'var(--purple)',
-        border: 'none',
-        borderRadius: 8,
-        cursor: 'pointer',
-        fontFamily: 'inherit',
-        textDecoration: 'none',
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-    },
-}
-
 export default function Header() {
     const [mobileOpen, setMobileOpen] = React.useState(false)
     const isDesktop = useMedia('(min-width: 1024px)')
 
     return (
         <>
-            <header style={styles.header} role="banner">
-                <div style={styles.inner}>
-                    <Link href="/" style={styles.logo} aria-label="Home">
-                        <span style={styles.logoIcon}>
+            <header
+                role="banner"
+                className="fixed top-0 left-0 right-0 z-[100] h-[60px] flex items-center justify-center bg-[rgba(9,9,11,0.9)] backdrop-blur-[14px] border-b border-border"
+            >
+                <div className="w-full max-w-[1152px] px-6 lg:px-10 flex items-center justify-between">
+                    <Link
+                        href="/"
+                        aria-label="Home"
+                        className="flex items-center gap-2 font-mono text-[15px] font-medium text-foreground no-underline"
+                    >
+                        <span className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shrink-0">
                             <Plus size={16} strokeWidth={2.5} />
                         </span>
                         pseudolab
                     </Link>
 
                     {/* Desktop nav */}
-                    <nav role="navigation" className="header-desktop-nav" style={{ gap: 32 }}>
-                        <ul style={styles.nav}>
+                    <nav
+                        role="navigation"
+                        className="header-desktop-nav hidden lg:flex items-center gap-8"
+                    >
+                        <ul className="flex items-center gap-8 list-none m-0 p-0">
                             {navLinks.map((link) => (
                                 <li key={link.name}>
                                     <Link
                                         href={link.href}
-                                        style={{
-                                            ...styles.navLink,
-                                            ...(link.highlight ? styles.navLinkHighlight : {}),
-                                        }}>
+                                        className={cn(
+                                            'text-sm font-medium whitespace-nowrap no-underline',
+                                            link.highlight ? 'text-ai' : 'text-text-2'
+                                        )}
+                                    >
                                         {link.highlight ? `✦ ${link.name}` : link.name}
                                     </Link>
                                 </li>
@@ -169,13 +58,19 @@ export default function Header() {
                         </ul>
                     </nav>
 
-                    {/* Desktop CTA - only render on desktop to avoid DOM bloat on mobile/iPad */}
+                    {/* Desktop CTA */}
                     {isDesktop && (
-                        <div className="header-desktop-cta" style={styles.cta}>
-                            <Link href="#" style={styles.btnGhost}>
+                        <div className="header-desktop-cta hidden lg:flex items-center gap-3">
+                            <Link
+                                href="#"
+                                className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit no-underline"
+                            >
                                 Sign in
                             </Link>
-                            <Link href="#" style={styles.btnPrimary}>
+                            <Link
+                                href="#"
+                                className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
+                            >
                                 <span>▶</span> Launch IDE
                             </Link>
                         </div>
@@ -187,7 +82,8 @@ export default function Header() {
                         onClick={() => setMobileOpen(!mobileOpen)}
                         aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                         aria-expanded={mobileOpen}
-                        className="header-mobile-btn">
+                        className="header-mobile-btn lg:hidden flex items-center justify-center bg-transparent border-none cursor-pointer p-2 text-foreground"
+                    >
                         {mobileOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
                 </div>
@@ -196,27 +92,36 @@ export default function Header() {
             {/* Mobile menu */}
             {mobileOpen && (
                 <div
-                    style={styles.mobileOverlay}
-                    className="header-mobile-overlay"
                     role="dialog"
-                    aria-modal="true">
+                    aria-modal="true"
+                    className="header-mobile-overlay fixed top-[60px] left-0 right-0 bottom-0 z-[99] bg-background p-6 flex flex-col gap-2 lg:hidden"
+                >
                     {navLinks.map((link) => (
                         <Link
                             key={link.name}
                             href={link.href}
                             onClick={() => setMobileOpen(false)}
-                            style={{
-                                ...styles.mobileNavLink,
-                                ...(link.highlight ? styles.navLinkHighlight : {}),
-                            }}>
+                            className={cn(
+                                'text-base font-medium py-3 border-b border-border no-underline',
+                                link.highlight ? 'text-ai' : 'text-foreground'
+                            )}
+                        >
                             {link.highlight ? `✦ ${link.name}` : link.name}
                         </Link>
                     ))}
-                    <div style={{ marginTop: 24, display: 'flex', flexDirection: 'column', gap: 12 }}>
-                        <Link href="#" style={styles.btnGhost} onClick={() => setMobileOpen(false)}>
+                    <div className="mt-6 flex flex-col gap-3">
+                        <Link
+                            href="#"
+                            className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit no-underline"
+                            onClick={() => setMobileOpen(false)}
+                        >
                             Sign in
                         </Link>
-                        <Link href="#" style={styles.btnPrimary} onClick={() => setMobileOpen(false)}>
+                        <Link
+                            href="#"
+                            className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit no-underline"
+                            onClick={() => setMobileOpen(false)}
+                        >
                             <span>▶</span> Launch IDE
                         </Link>
                     </div>
