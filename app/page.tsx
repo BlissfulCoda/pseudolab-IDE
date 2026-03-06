@@ -1,7 +1,13 @@
 import Hero from "./components/Hero";
+import StatsBar from "./components/StatsBar";
 
 const Home = () => {
-  return <Hero />;
+  return (
+    <>
+      <Hero />
+      <StatsBar />
+    </>
+  );
 };
 
 export default Home;
