@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import React from 'react'
+import {useState} from 'react'
 import { Menu, X, Plus } from 'lucide-react'
 import { Show, SignInButton, SignUpButton, UserButton } from '@clerk/nextjs'
 import { useMedia } from '@/app/hooks/use-media'
@@ -16,7 +16,7 @@ const navLinks = [
 ]
 
 export default function Header() {
-    const [mobileOpen, setMobileOpen] = React.useState(false)
+    const [mobileOpen, setMobileOpen] = useState(false)
     const isDesktop = useMedia('(min-width: 1024px)')
 
     return (
@@ -121,7 +121,9 @@ export default function Header() {
                     ))}
                     <div className="mt-6 flex flex-col gap-3">
                         <Show when="signed-out">
+                            <div className="flex gap-7.5 items-center">
                             <SignInButton mode="modal">
+
                                 <button
                                     className="py-2 px-4 text-sm text-text-2 bg-transparent border-none cursor-pointer font-inherit text-left"
                                     onClick={() => setMobileOpen(false)}
@@ -133,10 +135,11 @@ export default function Header() {
                                 <button
                                     className="inline-flex items-center gap-1.5 py-2 px-5 text-sm font-medium text-white bg-primary rounded-lg cursor-pointer font-inherit"
                                     onClick={() => setMobileOpen(false)}
-                                >
+                                    >
                                     <span>▶</span> Sign up
                                 </button>
                             </SignUpButton>
+                            </div>
                         </Show>
                         <Show when="signed-in">
                             <div className="flex items-center gap-3">

@@ -10,24 +10,24 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Refined easing: power4.out for silky deceleration at the end
-const EASE = "power4.out";
+// Bouncy easing for more noticeable motion
+const EASE = "power3.out";
 
-// Base animation: subtle Y + opacity, no reverse (play once)
-const BASE_FROM = { y: 48, autoAlpha: 0 };
+// Base animation: larger Y + opacity for obvious entrance
+const BASE_FROM = { y: 80, autoAlpha: 0 };
 const BASE_TO = {
   y: 0,
   autoAlpha: 1,
-  duration: 1.2,
+  duration: 1.4,
   ease: EASE,
   overwrite: "auto" as const,
 };
 
-const STAGGER_FROM = { y: 32, autoAlpha: 0 };
+const STAGGER_FROM = { y: 60, autoAlpha: 0 };
 const STAGGER_TO = {
   y: 0,
   autoAlpha: 1,
-  duration: 0.9,
+  duration: 1.1,
   ease: EASE,
   overwrite: "auto" as const,
 };
@@ -37,10 +37,10 @@ export default function useGsapScroll() {
     const wrappers = gsap.utils.toArray<HTMLElement>("[data-scroll-section]");
 
     wrappers.forEach((wrapper) => {
-      // Skip all: fromTo sets autoAlpha:0 immediately, hiding content until scroll.
-      // Re-enable when ScrollTrigger can be configured to avoid hiding above-fold content.
-      return;
       const variant = wrapper.getAttribute("data-scroll-variant");
+
+      // Hero: skip GSAP (above the fold, has its own pl-fade-up CSS animations)
+      if (variant === "hero") return;
       const inner = wrapper.firstElementChild as HTMLElement | null;
       const direct = inner?.querySelectorAll<HTMLElement>(":scope > *") ?? [];
 
@@ -56,9 +56,6 @@ export default function useGsapScroll() {
       }
       const hasStaggerContent = staggerTargets.length >= 2;
 
-      // Hero: skip GSAP (above the fold, has its own pl-fade-up CSS animations)
-      if (variant === "hero") return;
-
       // Sections with distinct content blocks: stagger children only
       if (hasStaggerContent) {
         gsap.fromTo(
@@ -66,11 +63,11 @@ export default function useGsapScroll() {
           STAGGER_FROM,
           {
             ...STAGGER_TO,
-            stagger: 0.12,
-            delay: 0.08,
+            stagger: 0.18,
+            delay: 0.1,
             scrollTrigger: {
               trigger: wrapper,
-              start: "top 88%",
+              start: "top bottom", // Fires when section enters viewport; above-fold content triggers on load
               once: true,
               toggleActions: "play none none none",
             },
@@ -82,15 +79,15 @@ export default function useGsapScroll() {
           wrapper,
           {
             ...BASE_FROM,
-            scale: 0.98,
+            scale: 0.94,
           },
           {
             ...BASE_TO,
             scale: 1,
-            duration: 1.1,
+            duration: 1.3,
             scrollTrigger: {
               trigger: wrapper,
-              start: "top 88%",
+              start: "top bottom", // Fires when section enters viewport; above-fold content triggers on load
               once: true,
               toggleActions: "play none none none",
             },
@@ -99,8 +96,10 @@ export default function useGsapScroll() {
       }
     });
 
-    // Refresh ScrollTrigger after a short delay (handles dynamic content)
-    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 500);
+    // Refresh immediately so above-the-fold sections animate on load
+    ScrollTrigger.refresh();
+    // Delayed refresh for dynamic content (fonts, images, etc.)
+    const refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 600);
 
     return () => {
       clearTimeout(refreshTimer);

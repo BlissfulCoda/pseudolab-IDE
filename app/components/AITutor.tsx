@@ -1,7 +1,7 @@
 "use client";
 
 import { IntegrationsIllustration } from "@/components/ui/illustrations/integrations-illustration";
-import { InvoiceIllustration } from "@/components/ui/illustrations/invoice-illustration";
+import { DocumentAnalysisIllustration } from "@/app/components/illustrations/document-analysis";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar";
 import { VisualizationIllustration } from "@/components/ui/illustrations/visualization-illustration";
@@ -59,7 +59,7 @@ export default function AITutor() {
             {/* Mark Scheme Evaluation */}
             <div className="col-span-2 row-span-2 grid grid-rows-subgrid gap-8 p-8">
               <div className="max-w-84 mx-auto w-full self-center">
-                <InvoiceIllustration />
+                <DocumentAnalysisIllustration />
               </div>
               <div className="mx-auto max-w-sm text-center">
                 <h3 className="text-balance font-semibold">Mark Scheme Evaluation</h3>
@@ -114,9 +114,9 @@ export default function AITutor() {
                     />
                     <AvatarFallback>CS</AvatarFallback>
                   </Avatar>
-                  <cite className="text-sm">Cambridge CS Teacher</cite>
+                  <cite className="text-xs">Ro'mie - Software Engineer</cite>
                   <span aria-hidden className="bg-foreground/15 size-1 rounded-full" />
-                  <span className="text-muted-foreground">IGCSE & A-Level</span>
+                  <span className="text-muted-foreground text-xs">IGCSE & A-Level</span>
                 </footer>
               </blockquote>
             </div>

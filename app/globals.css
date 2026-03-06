@@ -17,6 +17,7 @@
 
 /* ── CSS CUSTOM PROPERTIES ── */
 :root {
+  color-scheme: dark; /* Clerk components use dark theme to match app */
   --bg: #09090b;
   --surface: #0e0e10;
   --surface-2: #131316;
@@ -398,6 +399,32 @@ body::before {
   50% {
     transform: translateY(-8px);
   }
+}
+
+/* DocumentAnalysisIllustration: scanning line animation */
+@keyframes scan {
+  0%,
+  100% {
+    transform: translateY(-100%);
+  }
+  50% {
+    transform: translateY(100%);
+  }
+}
+@keyframes hueRotate {
+  0%,
+  100% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(180deg);
+  }
+}
+.animate-scan {
+  animation: scan 3s ease-in-out infinite;
+}
+.animate-hue-rotate {
+  animation: hueRotate 4s ease-in-out infinite;
 }
 
 .pl-divider {
